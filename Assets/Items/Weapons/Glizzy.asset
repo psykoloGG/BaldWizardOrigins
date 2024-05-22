@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c9946e6b6b3cf74d9d0ea7b5c4b12a9, type: 3}
+  m_Name: Glizzy
+  m_EditorClassIdentifier: 
+  Name: Glizzy
+  Icon: {fileID: 21300000, guid: 709d67e281cd4834d82904c29d3e4f17, type: 3}
+  Damage: 30
+  AttackRate: 2
+  TimeBetweenAttacks: 2.4399984
+  ProjectilePrefab: {fileID: 4909283157629417760, guid: 6cefef6af48c4cc47ab6759da08984d8, type: 3}
+  ProjectileSpeed: 12
+  ProjectileLifetime: 3
