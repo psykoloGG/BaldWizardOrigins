@@ -6,8 +6,9 @@ using UnityEngine.Tilemaps;
 
 public class DestructibleTilemap : MonoBehaviour
 {
-    public Tilemap Tilemap;
+    [SerializeField] private Tilemap Tilemap;
     private Dictionary<Vector3Int, int> Tiles;
+
 
     private void Awake()
     {
@@ -18,7 +19,7 @@ public class DestructibleTilemap : MonoBehaviour
             {
                 continue;
             }
-            
+
             Tiles[Position] = ((DestructibleTile)Tilemap.GetTile(Position)).Health;
         }
     }
@@ -44,9 +45,9 @@ public class DestructibleTilemap : MonoBehaviour
                 {
                     return;
                 }
-                
+
                 Debug.Log(Tiles[CellPosition]);
-                
+
                 if (Tiles[CellPosition] > 0)
                 {
                     Tiles[CellPosition] -= Other.gameObject.GetComponent<ProjectileBehavior>().GetGun().Damage;
