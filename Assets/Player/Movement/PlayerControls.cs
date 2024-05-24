@@ -17,24 +17,32 @@ using UnityEngine.XR;
  */
 public class PlayerControls : MonoBehaviour
 {
-    [SerializeField] private SpriteRenderer PlayerSpriteRenderer;
+    private IPlayerState CurrentState = new PlayerStateIdle();
+    
+    public SpriteRenderer PlayerSpriteRenderer;
+    public Rigidbody2D PlayerRigidbody;
+    
     [SerializeField] private SpriteRenderer HandSpriteRenderer;
     [SerializeField] private GameObject HandRotator;
     [SerializeField] private MainWeaponSlot MainWeaponSlot;
     [SerializeField] private Camera MainCamera;
-    [SerializeField] private Rigidbody2D PlayerRigidbody;
     [SerializeField] private Transform GroundCheck;
     [SerializeField] private LayerMask GroundLayer;
-    private bool OnGround;
+    [SerializeField] public Animator Animator;
+    public bool OnGround;
     private Vector2 PointerPosition;
     private bool Firing;
 
-    [SerializeField] private float MoveSpeed = 3.0f;
-    [SerializeField] private float JumpingPower = 8.0f;
-    private float HorizontalMovement;
     
-    private float CoyoteTime = 0.2f;
-    private float CoyoteTimeCounter = 0.0f;
+    [HideInInspector]
+    public float HorizontalMovement;
+    public float MoveSpeed = 3.0f;
+    
+    public float JumpingPower = 8.0f;
+    public float CoyoteTime = 0.2f;
+    public float CoyoteTimeCounter = 0.0f;
+    public bool IsJumping = false;
+    
     private void Update()
     {
         UpdateHandRotation();
@@ -47,23 +55,23 @@ public class PlayerControls : MonoBehaviour
     
     private void FixedUpdate()
     {
+        UpdateState();
         UpdateMovement();
+    }
+
+    private void UpdateState()
+    {
+        IPlayerState NewState = CurrentState.Tick(this);
+        if (NewState != CurrentState)
+        {
+            CurrentState.Exit(this);
+            CurrentState = NewState;
+            CurrentState.Enter(this);
+        }
     }
 
     private void UpdateMovement()
     {
-        PlayerRigidbody.velocity = new Vector2(HorizontalMovement * MoveSpeed, PlayerRigidbody.velocity.y);
-
-        // Adjust sprite to face direction player is moving
-        if (HorizontalMovement > 0)
-        {
-            PlayerSpriteRenderer.flipX = false;
-        }
-        else if (HorizontalMovement < 0)
-        {
-            PlayerSpriteRenderer.flipX = true;
-        }
-        
         if (PlayerRigidbody.velocity.y < 0)
         {
             PlayerRigidbody.gravityScale = 2.5f;
@@ -143,11 +151,13 @@ public class PlayerControls : MonoBehaviour
     {
         if (Context.performed && CoyoteTimeCounter > 0)
         {
+            IsJumping = true;
             PlayerRigidbody.velocity = new Vector2(PlayerRigidbody.velocity.x, JumpingPower);
         }
         
         if (Context.canceled && PlayerRigidbody.velocity.y > 0)
         {
+            IsJumping = false;
             PlayerRigidbody.velocity = new Vector2(PlayerRigidbody.velocity.x, PlayerRigidbody.velocity.y * 0.5f);
             CoyoteTimeCounter = 0;
         }
@@ -155,6 +165,6 @@ public class PlayerControls : MonoBehaviour
 
     private bool IsOnGround()
     {
-        return Physics2D.OverlapCircle(GroundCheck.position, 0.2f, GroundLayer);
+        return Physics2D.OverlapCircle(GroundCheck.position, 0.325f, GroundLayer);
     }
 }

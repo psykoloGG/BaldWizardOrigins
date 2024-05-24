@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c9946e6b6b3cf74d9d0ea7b5c4b12a9, type: 3}
+  m_Name: Wizard staff
+  m_EditorClassIdentifier: 
+  Name: Wizard Staff
+  Icon: {fileID: 21300000, guid: 7256390e71826ae41a8df9502b5fda5b, type: 3}
+  Damage: 500
+  AttackRate: 100
+  TimeBetweenAttacks: 1.3599993
+  ProjectilePrefab: {fileID: 4909283157629417760, guid: 72d532ad5910d4445a61d2052744188c, type: 3}
+  ProjectileSpeed: 20
+  ProjectileLifetime: 5

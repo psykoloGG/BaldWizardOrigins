@@ -31,13 +31,16 @@ public class DestructibleTilemap : MonoBehaviour
             return;
         }
 
+        // Check for bullet collision
         if (Other.gameObject.CompareTag("Bullet"))
         {
+            Destroy(Other.gameObject);
+            
             Vector3 HitPosition = Vector3.zero;
             foreach (ContactPoint2D Hit in Other.contacts)
             {
-                HitPosition.x = Hit.point.x + 0.01f * Hit.normal.x;
-                HitPosition.y = Hit.point.y + 0.01f * Hit.normal.y;
+                HitPosition.x = Hit.point.x + Hit.normal.x * 0.01f;
+                HitPosition.y = Hit.point.y + Hit.normal.y * 0.01f;
 
                 Vector3Int CellPosition = Tilemap.WorldToCell(HitPosition);
 
@@ -45,8 +48,6 @@ public class DestructibleTilemap : MonoBehaviour
                 {
                     return;
                 }
-
-                Debug.Log(Tiles[CellPosition]);
 
                 if (Tiles[CellPosition] > 0)
                 {
@@ -64,8 +65,6 @@ public class DestructibleTilemap : MonoBehaviour
                     Tiles.Remove(CellPosition);
                 }
             }
-
-            Destroy(Other.gameObject);
         }
     }
 }
